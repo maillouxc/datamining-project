@@ -1,5 +1,21 @@
-public class KNearestNeighborsClassifier {
+import java.util.List;
 
-    // TODO
+public class KNearestNeighborsClassifier implements SpamEmailClassifier {
+
+    public KNearestNeighborsClassifier(List<EmailData> trainingEmails, int k) {
+        // TODO
+    }
+
+    @Override
+    public boolean classify(EmailData email) {
+        // TODO
+
+        return false; // TODO remove this line.
+    }
+
+    @Override
+    public String getAlgorithmName() {
+        return "knn";
+    }
 
 }
