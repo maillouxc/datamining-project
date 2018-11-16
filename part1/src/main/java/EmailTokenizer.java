@@ -19,7 +19,12 @@ public class EmailTokenizer {
             "(",
             ")",
             "\"",
-            ";"
+            ";",
+            "[",
+            "]",
+            "&",
+            "~",
+            "?"
     );
 
     private List<String> wordsToIgnore = Arrays.asList(
@@ -33,6 +38,7 @@ public class EmailTokenizer {
             "as",
             "at",
             "be",
+            "been",
             "but",
             "by",
             "can",
@@ -47,6 +53,7 @@ public class EmailTokenizer {
             "have",
             "he",
             "her",
+            "here",
             "him",
             "i",
             "if",
@@ -84,6 +91,7 @@ public class EmailTokenizer {
             "those",
             "though",
             "to",
+            "today",
             "too",
             "up",
             "us",
@@ -156,7 +164,6 @@ public class EmailTokenizer {
             // Strip the chosen tokens, plus any numbers
             if (!completeListOfTokensToStrip.contains(token) && !token.matches("\\d+")) {
                 tokens.add(token);
-                System.out.println(token); // TODO remove
                 tokensAccepted++;
             }
             else {

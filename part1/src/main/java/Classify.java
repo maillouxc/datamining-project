@@ -105,7 +105,6 @@ public class Classify {
         System.out.println();
         System.out.println("Accuracy of " + classifier.getAlgorithmName() + " was " + accuracyString + "%.");
         System.out.println(numCorrectlyClassified + "/" + testEmails.size() + " emails classified correctly.");
-        System.out.println();
     }
 
 }
