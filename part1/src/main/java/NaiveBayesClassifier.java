@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * TODO finish this documentation.
@@ -63,7 +64,11 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
         overallProbabilityOfSpam = (float) numSpam / (numSpam + numHam);
         overallProbabilityOfHam = 1 - overallProbabilityOfSpam;
 
-        List<String> tokens = emailTokenizer.tokenizeEmail(email);
+        List<String> tokens = emailTokenizer.tokenizeEmail(email)
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
+
         for (String token : tokens) {
             if (email.isSpam) {
                 spamTokenCounts.merge(token, 1, Integer::sum);
@@ -73,7 +78,7 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
             else {
                 hamTokenCounts.merge(token, 1, Integer::sum);
                 totalHamTokens++;
-                tokenSpamProbabilities.put(token, mEstimateProbability(hamTokenCounts.get(token), totalHamTokens));
+                tokenHamProbabilities.put(token, mEstimateProbability(hamTokenCounts.get(token), totalHamTokens));
             }
         }
     }
@@ -86,11 +91,10 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
         double sumOfLogsOfSpamProbabilities = 0;
         for (String word : tokens) {
             double spamminessOfWord = getSpamminessOfWord(word);
-            double logProbability = Math.log1p(spamminessOfWord);
-            sumOfLogsOfSpamProbabilities += logProbability;
+            sumOfLogsOfSpamProbabilities -= Math.log(spamminessOfWord);
         }
 
-        double probabilityOfSpam = (sumOfLogsOfSpamProbabilities * overallProbabilityOfSpam);
+        double probabilityOfSpam = 1 - (Math.exp(-sumOfLogsOfSpamProbabilities) * overallProbabilityOfSpam);
         System.out.printf("Probability of spam for this email = %.5f\n", probabilityOfSpam);
 
         return probabilityOfSpam > 0.5;
