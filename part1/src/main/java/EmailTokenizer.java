@@ -154,6 +154,16 @@ public class EmailTokenizer {
         completeListOfTokensToStrip.addAll(otherStringsToIgnore);
     }
 
+    public List<List<String>> tokenizeEmails(List<EmailData> emails) {
+        List<List<String>> tokenizedEmails = new ArrayList<>();
+
+        for(EmailData email: emails) {
+            tokenizedEmails.add(tokenizeEmail(email));
+        }
+
+        return tokenizedEmails;
+    }
+
     public List<String> tokenizeEmail(EmailData email) {
         StringTokenizer tokenizer = new StringTokenizer(email.contents, " \t\n\r\f");
         List<String> tokens = new ArrayList<>();

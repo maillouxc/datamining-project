@@ -90,6 +90,9 @@ public class Classify {
         return emailData;
     }
 
+    /**
+     * Tests and prints the accuracy of the chosen SpamEmailClassifier provided.
+     */
     private static void testAccuracyOfClassifier(SpamEmailClassifier classifier, List<EmailData> testEmails) {
         int numCorrectlyClassified = 0;
         for (EmailData email : testEmails) {
@@ -102,8 +105,7 @@ public class Classify {
         double accuracy = ((double) numCorrectlyClassified / testEmails.size()) * 100;
         String accuracyString = String.format("%.3f", accuracy);
 
-        System.out.println();
-        System.out.println("Accuracy of " + classifier.getAlgorithmName() + " was " + accuracyString + "%.");
+        System.out.println("\nhaAccuracy of " + classifier.getAlgorithmName() + " was " + accuracyString + "%.");
         System.out.println(numCorrectlyClassified + "/" + testEmails.size() + " emails classified correctly.");
     }
 

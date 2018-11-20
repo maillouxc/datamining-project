@@ -55,6 +55,7 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
         //printTokenCounts();
     }
 
+    @Override
     public void train(EmailData email) {
         if (email.isSpam) {
             numSpam++;
