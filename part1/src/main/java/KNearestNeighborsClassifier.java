@@ -5,7 +5,7 @@ public class KNearestNeighborsClassifier implements SpamEmailClassifier {
 
     private final int k;
 
-    private EmailTokenizer emailTokenizer = new EmailTokenizer();
+    private EmailTokenizer emailTokenizer = new EmailTokenizer(true);
 
     private List<String> uniqueTokens = new ArrayList<>();
     private List<EmailTermVector> termsVectors = new ArrayList<>();
@@ -58,6 +58,7 @@ public class KNearestNeighborsClassifier implements SpamEmailClassifier {
             );
         }
 
+        // Sort the similarities in descending order, then take the majority class label vote from the k highest
         cosineSimilarities.sort((s1, s2) -> s2.getValue().compareTo(s1.getValue()));
         int spamVotes = 0;
         int hamVotes = 0;

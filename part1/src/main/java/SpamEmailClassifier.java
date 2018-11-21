@@ -1,3 +1,6 @@
+/**
+ * An interface which defines classes that can classify emails as either spam or ham.
+ */
 public interface SpamEmailClassifier {
 
     /**

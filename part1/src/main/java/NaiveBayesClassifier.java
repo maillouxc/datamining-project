@@ -24,13 +24,11 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
     private HashMap<String, Integer> hamTokenCounts = new HashMap<>();
 
     private HashMap<String, Double> tokenSpamProbabilities = new HashMap<>();
-    private HashMap<String, Double> tokenHamProbabilities = new HashMap<>();
 
     private double overallProbabilityOfSpam;
-    private double overallProbabilityOfHam;
 
     public NaiveBayesClassifier(List<EmailData> trainingData) {
-        emailTokenizer = new EmailTokenizer();
+        emailTokenizer = new EmailTokenizer(false);
         for (EmailData email : trainingData) {
             train(email);
         }
@@ -38,21 +36,7 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
         spamTokenCounts.forEach((token, count) -> {
             double probabilitySpamEmailContainsToken = (double) count / totalSpamTokens;
             tokenSpamProbabilities.put(token, probabilitySpamEmailContainsToken);
-            String probabilityString = String.format("%.6f", probabilitySpamEmailContainsToken);
-            System.out.println("P(Spam|" + token + ") = " + probabilityString); // TODO remove
         });
-
-        hamTokenCounts.forEach((token, count) -> {
-            double probabilityHamEmailContainsToken = (double) count / totalHamTokens;
-            tokenHamProbabilities.put(token, probabilityHamEmailContainsToken);
-            String probabilityString = String.format("%.6f", probabilityHamEmailContainsToken);
-            System.out.println("P(Ham|" + token + ") = " + probabilityString); // TODO remove
-        });
-
-        System.out.println("\nOverall probability that email is spam, P(S) = " + overallProbabilityOfSpam);
-        System.out.println("Overall probability of ham, P(H) = " + overallProbabilityOfHam);
-
-        //printTokenCounts();
     }
 
     @Override
@@ -63,7 +47,6 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
             numHam++;
         }
         overallProbabilityOfSpam = (float) numSpam / (numSpam + numHam);
-        overallProbabilityOfHam = 1 - overallProbabilityOfSpam;
 
         List<String> tokens = emailTokenizer.tokenizeEmail(email)
                 .stream()
@@ -79,7 +62,6 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
             else {
                 hamTokenCounts.merge(token, 1, Integer::sum);
                 totalHamTokens++;
-                tokenHamProbabilities.put(token, mEstimateProbability(hamTokenCounts.get(token), totalHamTokens));
             }
         }
     }
@@ -94,10 +76,7 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
             double spamminessOfWord = getSpamminessOfWord(word);
             sumOfLogsOfSpamProbabilities -= Math.log(spamminessOfWord);
         }
-
         double probabilityOfSpam = 1 - (Math.exp(-sumOfLogsOfSpamProbabilities) * overallProbabilityOfSpam);
-        System.out.printf("Probability of spam for this email = %.5f\n", probabilityOfSpam);
-
         return probabilityOfSpam > 0.5;
     }
 
@@ -107,6 +86,9 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
         return (instances + (m * p)) / (totalNumValues + m);
     }
 
+    /**
+     * Returns the probability that a given word is found in spam emails.
+     */
     private double getSpamminessOfWord(String word) {
         double pSpamGivenWord;
         if (tokenSpamProbabilities.containsKey(word)) {
@@ -116,42 +98,6 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
             pSpamGivenWord = mEstimateProbability(0, spamTokenCounts.size());
         }
         return pSpamGivenWord;
-    }
-
-    private void printTokenCounts() {
-        List<String> hamCountStrings = new ArrayList<>();
-        List<String> spamCountStrings = new ArrayList<>();
-
-        hamTokenCounts.forEach((key, value) -> hamCountStrings.add(value + " = " + key));
-        spamTokenCounts.forEach((key, value) -> spamCountStrings.add(value + " = " + key));
-
-        hamCountStrings.sort((str1, str2) -> {
-            int int1 = new Scanner(str1).useDelimiter("\\D+").nextInt();
-            int int2 = new Scanner(str2).useDelimiter("\\D+").nextInt();
-            return Integer.compare(int1, int2);
-        });
-        spamCountStrings.sort((str1, str2) -> {
-            int int1 = new Scanner(str1).useDelimiter("\\D+").nextInt();
-            int int2 = new Scanner(str2).useDelimiter("\\D+").nextInt();
-            return Integer.compare(int1, int2);
-        });
-
-        for (String s : hamCountStrings) { System.out.println(s); }
-        for (String s : spamCountStrings) { System.out.println(s); }
-
-        System.out.printf(
-                "\n%d/%d tokens stripped. %d remaining\n",
-                EmailTokenizer.tokensStripped,
-                EmailTokenizer.tokensParsed,
-                EmailTokenizer.tokensAccepted
-        );
-
-        double percentTokensRemoved = ((float) EmailTokenizer.tokensStripped / EmailTokenizer.tokensParsed) * 100;
-        String percentRemovedString = String.format("%.3f", percentTokensRemoved);
-        System.out.println("Removed " + percentRemovedString + "%. of tokens\n");
-
-        System.out.println("Total ham tokens = " + totalHamTokens);
-        System.out.println("Total spam tokens = " + totalSpamTokens);
     }
 
     @Override
