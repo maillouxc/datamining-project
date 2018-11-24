@@ -105,7 +105,7 @@ public class Classify {
         double accuracy = ((double) numCorrectlyClassified / testEmails.size()) * 100;
         String accuracyString = String.format("%.3f", accuracy);
 
-        System.out.println("\nhaAccuracy of " + classifier.getAlgorithmName() + " was " + accuracyString + "%.");
+        System.out.println("\nAccuracy of " + classifier.getAlgorithmName() + " was " + accuracyString + "%.");
         System.out.println(numCorrectlyClassified + "/" + testEmails.size() + " emails classified correctly.");
     }
 

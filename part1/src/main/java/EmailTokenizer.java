@@ -213,13 +213,19 @@ public class EmailTokenizer {
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken().toLowerCase();
             tokensParsed++;
-            // Strip the chosen tokens, plus any numbers
-            if (!completeListOfTokensToStrip.contains(token) && !token.matches("\\d+")) {
-                tokens.add(token);
-                tokensAccepted++;
+            if (stripTokens) {
+                // Strip the chosen tokens, plus any numbers
+                if (!completeListOfTokensToStrip.contains(token) && !token.matches("\\d+")) {
+                    tokens.add(token);
+                    tokensAccepted++;
+                }
+                else {
+                    tokensStripped++;
+                }
             }
             else {
-                tokensStripped++;
+                tokens.add(token);
+                tokensAccepted++;
             }
         }
 
