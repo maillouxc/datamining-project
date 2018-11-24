@@ -1,7 +1,5 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -32,11 +30,6 @@ public class NaiveBayesClassifier implements SpamEmailClassifier {
         for (EmailData email : trainingData) {
             train(email);
         }
-
-        spamTokenCounts.forEach((token, count) -> {
-            double probabilitySpamEmailContainsToken = (double) count / totalSpamTokens;
-            tokenSpamProbabilities.put(token, probabilitySpamEmailContainsToken);
-        });
     }
 
     @Override
