@@ -3,6 +3,9 @@
 import argparse
 from time import time
 
+from sklearn import svm
+from sklearn.linear_model import Perceptron
+
 
 def main():
     parsedArgs = parse_command_line_arguments()
