@@ -3,28 +3,44 @@
 import argparse
 import os
 import glob
+import numpy
 from time import time
-
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.pipeline import Pipeline
 from sklearn import svm
 from sklearn.linear_model import Perceptron
 
 
 def main():
     parsed_args = parse_command_line_arguments()
+    
     data_path = parsed_args.path
+    training_emails, training_labels, = load_dataset(data_path + "/training")
+    test_emails, test_labels = load_dataset(data_path + "/test")
 
-    # We need the tfidf_transformer and counts_vect here to pass the the test email loader.
-    # There are other ways to do this, but this is the most convenient.
-    # It's important to supply this tranformer because we need to maintain the vocabulary between test and training
-    training_emails, training_labels, tfidf_transformer, counts_vect = load_training_dataset(data_path + "/training")
-    test_emails, test_labels = load_test_dataset(data_path + "/test", tfidf_transformer, counts_vect)
+    svm_classifier = Pipeline([
+        ('count_vectorizer', CountVectorizer(stop_words="english")),
+        ('tfidf_transformer', TfidfTransformer()),
+        ('svm_classifier', svm.SVC(gamma="scale",
+                                   C=1,
+                                   verbose=False))
+    ])
 
-    svm_classifier = train_svm_classifier(training_emails, training_labels)
+    # Train the svm
+    svm_classifier.fit(training_emails, training_labels)
 
+    num_correctly_classified = 0
+    num_wrongly_classified = 0
+    # Test it
     results = svm_classifier.predict(test_emails)
-    print(results)
+    for i in range(len(results)):
+        if (results[i] == test_labels[i]):
+            num_correctly_classified += 1
+        else:
+            num_wrongly_classified += 1
+
+    print("Accuracy of SVM classifier was " + str("{0:.3%}").format(numpy.mean(results == test_labels)))
 
 
 def parse_command_line_arguments():
@@ -37,7 +53,7 @@ def parse_command_line_arguments():
     return parser.parse_args()
 
 
-def load_training_dataset(data_path):
+def load_dataset(data_path):
     print("Loading training dataset at " + data_path)
 
     email_data = []
@@ -52,46 +68,9 @@ def load_training_dataset(data_path):
         with open(file, 'r') as email_file:
             email_data.append(email_file.read())
 
-    count_vectorizer = CountVectorizer(stop_words='english')
-    tfidf_transformer = TfidfTransformer(use_idf=False)
-    email_feature_data = tfidf_transformer.fit_transform(count_vectorizer.fit_transform(email_data))
-
-    print(email_feature_data)
     print("Loaded " + str(len(email_labels)) + " training emails")
 
-    return email_feature_data, email_labels, tfidf_transformer, count_vectorizer
-
-
-def load_test_dataset(data_path, tfidf_transformer, counts_vect):
-    print("Loading test dataset at " + data_path)
-
-    email_data = []
-    email_labels = []
-
-    os.chdir(data_path)
-    for file in os.listdir():
-        if (file.startswith("sp")):
-            email_labels.append("spam")
-        else:
-            email_labels.append("ham")
-        with open(file, 'r') as email_file:
-            email_data.append(email_file.read())
-
-    email_feature_data = tfidf_transformer.transform(counts_vect.transform(email_data))
-
-    print(email_feature_data)
-    print("Loaded " + str(len(email_labels)) + " test emails")
-
-    return email_feature_data, email_labels
-
-
-def train_svm_classifier(emails, labels):
-    classifier = svm.SVC(
-        gamma='scale',
-        C=1,
-        verbose=True)
-    classifier.fit(emails, labels)
-    return classifier
+    return email_data, email_labels
 
 
 if __name__ == "__main__":
