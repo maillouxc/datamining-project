@@ -5,6 +5,7 @@ import os
 import glob
 from time import time
 
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn import svm
 from sklearn.linear_model import Perceptron
 
@@ -15,13 +16,6 @@ def main():
     data_path = parsed_args.path
     training_emails, training_labels = load_dataset(data_path + "/training")
     test_emails, test_labels = load_dataset(data_path + "/test")
-
-    print("Training Emails data:")
-    print(training_emails)
-    print()
-    print("Training Emails labels:")
-    print(training_labels)
-    print()
 
     svm_classifier = train_svm_classifier(training_emails, training_labels)
 
@@ -51,10 +45,15 @@ def load_dataset(data_path):
             email_labels.append("spam")
         else:
             email_labels.append("ham")
+        with open(file, 'r') as email_file:
+            email_data.append(email_file.read())
+
+    count_vectorizer = CountVectorizer(stop_words='english')
+    email_features = count_vectorizer.fit_transform(email_data)
 
     print("Loaded " + str(len(email_labels)) + " emails")
 
-    return email_data, email_labels
+    return email_features, email_labels
 
 
 def train_svm_classifier(emails, labels):
