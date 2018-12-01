@@ -11,42 +11,26 @@ from sklearn.pipeline import Pipeline
 from sklearn import svm
 from sklearn.linear_model import Perceptron
 
+training_emails = []
+training_labels = []
+test_emails = []
+test_labels = []
 
 def main():
-    parsed_args = parse_command_line_arguments()
-    
+    global training_emails, training_labels, test_emails, test_labels
+    parsed_args = parse_command_line_arguments()    
     data_path = parsed_args.path
     training_emails, training_labels, = load_dataset(data_path + "/training")
     test_emails, test_labels = load_dataset(data_path + "/test")
 
-    svm_classifier = Pipeline([
-        ('count_vectorizer', CountVectorizer(stop_words="english")),
-        ('tfidf_transformer', TfidfTransformer()),
-        ('svm_classifier', svm.SVC(gamma="scale",
-                                   C=1,
-                                   verbose=False))
-    ])
-
-    # Train the svm
-    svm_classifier.fit(training_emails, training_labels)
-
-    num_correctly_classified = 0
-    num_wrongly_classified = 0
-    # Test it
-    results = svm_classifier.predict(test_emails)
-    for i in range(len(results)):
-        if (results[i] == test_labels[i]):
-            num_correctly_classified += 1
-        else:
-            num_wrongly_classified += 1
-
-    accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
-    print("Accuracy of SVM classifier was " + accuracy)
+    test_svm_classifier(C=1, use_idf=True, kernel='linear')
+    test_svm_classifier(C=2, use_idf=True, kernel='linear')
+    test_svm_classifier(C=10, use_idf=True, kernel='linear')
 
 
 def parse_command_line_arguments():
     parser = argparse.ArgumentParser(
-        description="Classifies emails as spam or ham")
+        description="Tests two types of email spam classifiers")
     parser.add_argument(
         'path',
         help="The path to the two folders, \'test\' and \'training\'"
@@ -72,6 +56,36 @@ def load_dataset(data_path):
     print("Loaded " + str(len(email_labels)) + " training emails")
 
     return email_data, email_labels
+
+
+def test_svm_classifier(C, use_idf, kernel):
+    svm_classifier = Pipeline([
+        ('count_vectorizer', CountVectorizer(stop_words="english")),
+        ('tfidf_transformer', TfidfTransformer(use_idf=use_idf)),
+        ('svm_classifier', svm.SVC(gamma="scale",
+                                   C=C,
+                                   class_weight=None,
+                                   kernel=kernel
+                                   verbose=False))
+    ])
+
+    print(svm_classifier.get_params()['svm_classifier'])
+
+    # Train the svm
+    svm_classifier.fit(training_emails, training_labels)
+
+    # Test it
+    num_correctly_classified = 0
+    num_wrongly_classified = 0
+    results = svm_classifier.predict(test_emails)
+    for i in range(len(results)):
+        if (results[i] == test_labels[i]):
+            num_correctly_classified += 1
+        else:
+            num_wrongly_classified += 1
+
+    accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
+    print("Accuracy of SVM classifier was " + accuracy)
 
 
 if __name__ == "__main__":
