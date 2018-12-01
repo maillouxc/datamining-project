@@ -40,7 +40,8 @@ def main():
         else:
             num_wrongly_classified += 1
 
-    print("Accuracy of SVM classifier was " + str("{0:.3%}").format(numpy.mean(results == test_labels)))
+    accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
+    print("Accuracy of SVM classifier was " + accuracy)
 
 
 def parse_command_line_arguments():
