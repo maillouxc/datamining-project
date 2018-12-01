@@ -65,7 +65,7 @@ def test_svm_classifier(C, use_idf, kernel):
         ('svm_classifier', svm.SVC(gamma="scale",
                                    C=C,
                                    class_weight=None,
-                                   kernel=kernel
+                                   kernel=kernel,
                                    verbose=False))
     ])
 
