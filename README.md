@@ -50,10 +50,8 @@ Part 1:
 
 Part 2:
 
-  1. Ensure that you have Python 3.7 or greater installed.
-     a. If you have _both_ Python 2 and Python 3 installed, you will need to ensure you run the program using `python3`.
-  2. Ensure that you have pip installed.
-     b. If you have _both_ Python 2 and Python 3 installed, you will need to run pip commands using `pip3`.
+  1. Ensure that you have Python 3.7 or greater installed. If you have _both_ Python 2 and Python 3 installed, you will need to ensure you run the program using `python3`.
+  2. Ensure that you have pip installed. If you have _both_ Python 2 and Python 3 installed, you will need to run pip commands using `pip3`.
   3. Install scikit-learn: `pip install sklearn`
   4. Install numpy: `pip install numpy`
   5. Run the program as: `python experiments.py path_to_data`
