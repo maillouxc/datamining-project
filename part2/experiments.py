@@ -90,7 +90,7 @@ def test_svm_classifier(C, kernel):
                                    class_weight=None,
                                    kernel=kernel,
                                    verbose=False,
-                                   degree=2))
+                                   degree=3))
     ])
 
     print(svm_classifier.get_params()['svm_classifier'])
