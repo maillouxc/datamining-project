@@ -31,6 +31,9 @@ def main():
     print("Testing various parameter values for SVM classifier:")
     print()
     
+    print()
+    print("Using linear kernel and varying C value:")
+    print()
     test_svm_classifier(C=0.25, kernel='linear')
     test_svm_classifier(C=0.5, kernel='linear')
     test_svm_classifier(C=1, kernel='linear')
@@ -39,6 +42,10 @@ def main():
     test_svm_classifier(C=50, kernel='linear')
     test_svm_classifier(C=1000, kernel='linear')
 
+    
+    print()
+    print("Using poly kernel and varying C value:")
+    print()
     test_svm_classifier(C=0.25, kernel='poly')
     test_svm_classifier(C=0.5, kernel='poly')
     test_svm_classifier(C=1, kernel='poly')
@@ -47,6 +54,9 @@ def main():
     test_svm_classifier(C=50, kernel='poly')
     test_svm_classifier(C=1000, kernel='poly')
 
+    print()
+    print("Using rbf kernel, gamma = scale, and varying C:")
+    print()
     test_svm_classifier(C=0.25, kernel='rbf')
     test_svm_classifier(C=0.5, kernel='rbf')
     test_svm_classifier(C=1, kernel='rbf')
@@ -55,6 +65,9 @@ def main():
     test_svm_classifier(C=50, kernel='rbf')
     test_svm_classifier(C=1000, kernel='rbf')
     
+    print()
+    print("Using rbf kernel, gamma = 0.25, and varying C:")
+    print()
     test_svm_classifier(C=0.25, kernel='rbf', gamma=0.25)
     test_svm_classifier(C=0.5, kernel='rbf', gamma=0.25)
     test_svm_classifier(C=1, kernel='rbf', gamma=0.25)
@@ -63,7 +76,10 @@ def main():
     test_svm_classifier(C=50, kernel='rbf', gamma=0.25)
     test_svm_classifier(C=1000, kernel='rbf', gamma=0.25)
     
-    test_svm_classifier(C=0.25, kernel='rbf', gamma=0.25)
+    print()
+    print("Using rbf kernel, gamma = 0.50, and varying C:")
+    print()
+    test_svm_classifier(C=0.25, kernel='rbf', gamma=0.50)
     test_svm_classifier(C=0.5, kernel='rbf', gamma=0.50)
     test_svm_classifier(C=1, kernel='rbf', gamma=0.50)
     test_svm_classifier(C=2, kernel='rbf', gamma=0.50)
@@ -71,6 +87,9 @@ def main():
     test_svm_classifier(C=50, kernel='rbf', gamma=0.50)
     test_svm_classifier(C=1000, kernel='rbf', gamma=0.50)
     
+    print()
+    print("Using rbf kernel, gamma = 1, and varying C:")
+    print()
     test_svm_classifier(C=0.25, kernel='rbf', gamma=1)
     test_svm_classifier(C=0.5, kernel='rbf', gamma=1)
     test_svm_classifier(C=1, kernel='rbf', gamma=1)
@@ -79,6 +98,9 @@ def main():
     test_svm_classifier(C=50, kernel='rbf', gamma = 1)
     test_svm_classifier(C=1000, kernel='rbf', gamma=1)
     
+    print()
+    print("Using rbf kernel, gamma = 2, and varying C:")
+    print()
     test_svm_classifier(C=0.25, kernel='rbf', gamma=2)
     test_svm_classifier(C=0.5, kernel='rbf', gamma=2)
     test_svm_classifier(C=1, kernel='rbf', gamma=2)
@@ -87,6 +109,9 @@ def main():
     test_svm_classifier(C=50, kernel='rbf', gamma=2)
     test_svm_classifier(C=1000, kernel='rbf', gamma=2)
     
+    print()
+    print("Using rbf kernel, gamma = 10, and varying C:")
+    print()
     test_svm_classifier(C=0.25, kernel='rbf', gamma=10)
     test_svm_classifier(C=0.5, kernel='rbf', gamma=10)
     test_svm_classifier(C=1, kernel='rbf', gamma=10)
