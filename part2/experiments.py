@@ -91,6 +91,7 @@ def test_svm_classifier(C, use_idf, kernel):
     accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
     print("Accuracy of SVM classifier was " + accuracy)
 
+    
 def test_perceptron_classifier():
     classifier = Pipeline([
         ('count_vectorizer', CountVectorizer(stop_words="english")),
@@ -105,7 +106,6 @@ def test_perceptron_classifier():
     results = classifier.predict(test_emails)
     accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
     print("Accuracy of perceptron was " + accuracy)
-
 
 
 if __name__ == "__main__":
