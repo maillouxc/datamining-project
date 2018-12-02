@@ -13,7 +13,7 @@ public class EmailTokenizer {
      * A list of symbols that should be filtered from the emails. Certain symbols are deliberately NOT included in this
      * list, such as exclamation points, as they tend to be fare more common in spam emails.
      */
-    private List<String> symbolsToStrip = Arrays.asList(
+    private final List<String> symbolsToStrip = Arrays.asList(
             ".",
             ",",
             "_",
@@ -38,7 +38,7 @@ public class EmailTokenizer {
     /**
      * A list of stop words to ignore, sorted in alphabetical order.
      */
-    private List<String> wordsToIgnore = Arrays.asList(
+    private final List<String> wordsToIgnore = Arrays.asList(
             "a",
             "all",
             "am",
@@ -131,7 +131,7 @@ public class EmailTokenizer {
     /**
      * A list of words representing the integers one though ten, as these are likely also considered stop words.
      */
-    private List<String> numberWordsToIgnore = Arrays.asList(
+    private final List<String> numberWordsToIgnore = Arrays.asList(
             "one",
             "two",
             "three",
@@ -148,7 +148,7 @@ public class EmailTokenizer {
      * A list of miscellaneous strings to exclude from the emails. Among other things, our tokenizer doesn't properly
      * parse contractions, so the trailing bits of common contractions are included in this list.
      */
-    private List<String> otherStringsToIgnore = Arrays.asList(
+    private final List<String> otherStringsToIgnore = Arrays.asList(
             "subject:",
             "'t",
             "n't",
@@ -158,6 +158,10 @@ public class EmailTokenizer {
             "ve",
             "ll"
     );
+
+    private final String phoneNumberRegex = "^(1?(-?\\d{3})-?)?(\\d{3})(-?\\d{4})$";
+    private final String dollarAmountRegex = "^\\$[0-9]+(\\.[0-9][0-9])?$";
+
 
     /**
      * All of the strip lists of tokens are combined into a single list of tokens to strip, stored here, so that they
@@ -215,12 +219,19 @@ public class EmailTokenizer {
             tokensParsed++;
             if (stripTokens) {
                 // Strip the chosen tokens, plus any numbers
-                if (!completeListOfTokensToStrip.contains(token) && !token.matches("\\d+")) {
-                    tokens.add(token);
-                    tokensAccepted++;
+                if (completeListOfTokensToStrip.contains(token) || token.matches("\\d+")) {
+                    tokensStripped++;
                 }
                 else {
-                    tokensStripped++;
+                    if (token.matches(phoneNumberRegex)) {
+                        token = "phonenumber";
+                    }
+                    if (token.matches(dollarAmountRegex)) {
+                        token = "dollaramount";
+                    }
+
+                    tokens.add(token);
+                    tokensAccepted++;
                 }
             }
             else {
