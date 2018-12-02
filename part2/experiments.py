@@ -18,12 +18,19 @@ test_labels = []
 
 
 def main():
+    print("Running tests with various parameter values.")
+    print("This may take a moment...")
+    
     global training_emails, training_labels, test_emails, test_labels
     parsed_args = parse_command_line_arguments()
     data_path = parsed_args.path
     training_emails, training_labels, = load_dataset(data_path + "/training")
     test_emails, test_labels = load_dataset(data_path + "/test")
 
+    print()
+    print("Testing various parameter values for SVM classifier:")
+    print()
+    
     test_svm_classifier(C=0.25, kernel='linear')
     test_svm_classifier(C=0.5, kernel='linear')
     test_svm_classifier(C=1, kernel='linear')
@@ -88,6 +95,9 @@ def main():
     test_svm_classifier(C=50, kernel='rbf', gamma=10)
     test_svm_classifier(C=1000, kernel='rbf', gamma=10)
 
+    print()
+    print("Testing perceptron classifier - no paramters to test.")
+    print()
     test_perceptron_classifier()
 
     
