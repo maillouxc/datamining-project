@@ -47,6 +47,46 @@ def main():
     test_svm_classifier(C=10, kernel='rbf')
     test_svm_classifier(C=50, kernel='rbf')
     test_svm_classifier(C=1000, kernel='rbf')
+    
+    test_svm_classifier(C=0.25, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=0.5, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=1, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=2, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=10, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=50, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=1000, kernel='rbf', gamma=0.25)
+    
+    test_svm_classifier(C=0.25, kernel='rbf', gamma=0.25)
+    test_svm_classifier(C=0.5, kernel='rbf', gamma=0.50)
+    test_svm_classifier(C=1, kernel='rbf', gamma=0.50)
+    test_svm_classifier(C=2, kernel='rbf', gamma=0.50)
+    test_svm_classifier(C=10, kernel='rbf', gamma=0.50)
+    test_svm_classifier(C=50, kernel='rbf', gamma=0.50)
+    test_svm_classifier(C=1000, kernel='rbf', gamma=0.50)
+    
+    test_svm_classifier(C=0.25, kernel='rbf', gamma=1)
+    test_svm_classifier(C=0.5, kernel='rbf', gamma=1)
+    test_svm_classifier(C=1, kernel='rbf', gamma=1)
+    test_svm_classifier(C=2, kernel='rbf', gamma=1)
+    test_svm_classifier(C=10, kernel='rbf', gamma=1)
+    test_svm_classifier(C=50, kernel='rbf', gamma = 1)
+    test_svm_classifier(C=1000, kernel='rbf', gamma=1)
+    
+    test_svm_classifier(C=0.25, kernel='rbf', gamma=2)
+    test_svm_classifier(C=0.5, kernel='rbf', gamma=2)
+    test_svm_classifier(C=1, kernel='rbf', gamma=2)
+    test_svm_classifier(C=2, kernel='rbf', gamma=2)
+    test_svm_classifier(C=10, kernel='rbf', gamma=2)
+    test_svm_classifier(C=50, kernel='rbf', gamma=2)
+    test_svm_classifier(C=1000, kernel='rbf', gamma=2)
+    
+    test_svm_classifier(C=0.25, kernel='rbf', gamma=10)
+    test_svm_classifier(C=0.5, kernel='rbf', gamma=10)
+    test_svm_classifier(C=1, kernel='rbf', gamma=10)
+    test_svm_classifier(C=2, kernel='rbf', gamma=10)
+    test_svm_classifier(C=10, kernel='rbf', gamma=10)
+    test_svm_classifier(C=50, kernel='rbf', gamma=10)
+    test_svm_classifier(C=1000, kernel='rbf', gamma=10)
 
     test_perceptron_classifier()
 
@@ -81,7 +121,7 @@ def load_dataset(data_path):
     return email_data, email_labels
 
 
-def test_svm_classifier(C, kernel):
+def test_svm_classifier(C, kernel, gamma="scale"):
     svm_classifier = Pipeline([
         ('count_vectorizer', CountVectorizer(stop_words="english")),
         ('tfidf_transformer', TfidfTransformer(use_idf=True)),
