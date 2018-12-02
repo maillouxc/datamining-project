@@ -168,15 +168,13 @@ def test_svm_classifier(C, kernel, gamma="scale"):
                                    degree=3))
     ])
 
-    print("With C = " + str(C) + "; gamma = " + str(gamma) + "...") 
-
     # Train the svm
     svm_classifier.fit(training_emails, training_labels)
 
     # Test it
     results = svm_classifier.predict(test_emails)
     accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
-    print("Accuracy of SVM classifier was " + accuracy)
+    print("With C = " + str(C) + "; gamma = " + str(gamma) + "; accuracy was " + accuracy) 
 
     
 def test_perceptron_classifier():
