@@ -168,7 +168,7 @@ def test_svm_classifier(C, kernel, gamma="scale"):
                                    degree=3))
     ])
 
-    print(svm_classifier.get_params()['svm_classifier'])
+    print("With C = " + C + "; gamma = " gamma + "...") 
 
     # Train the svm
     svm_classifier.fit(training_emails, training_labels)
