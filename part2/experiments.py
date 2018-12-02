@@ -16,6 +16,7 @@ training_labels = []
 test_emails = []
 test_labels = []
 
+
 def main():
     global training_emails, training_labels, test_emails, test_labels
     parsed_args = parse_command_line_arguments()
@@ -40,6 +41,7 @@ def main():
 
     test_perceptron_classifier()
 
+    
 def parse_command_line_arguments():
     parser = argparse.ArgumentParser(
         description="Tests two types of email spam classifiers")
@@ -110,3 +112,4 @@ def test_perceptron_classifier():
 
 if __name__ == "__main__":
     main()
+
