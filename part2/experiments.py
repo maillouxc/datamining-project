@@ -174,7 +174,12 @@ def test_svm_classifier(C, kernel, gamma="scale"):
     # Test it
     results = svm_classifier.predict(test_emails)
     accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
-    print("C = " + str(C) + "; gamma = " + str(gamma) + "; accuracy = " + accuracy) 
+    if kernel == 'rbf':
+        print("C = " + str(C) + "; gamma = " + str(gamma) + "; accuracy = " + accuracy)
+    elif kernel = 'linear':
+        print("C = " + str(C) + "; accuracy = " + accuracy)
+    else:
+        print("C = " + str(C) + "; accuracy = " + accuracy)
 
     
 def test_perceptron_classifier():
