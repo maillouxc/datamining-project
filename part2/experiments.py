@@ -18,7 +18,7 @@ test_labels = []
 
 def main():
     global training_emails, training_labels, test_emails, test_labels
-    parsed_args = parse_command_line_arguments()    
+    parsed_args = parse_command_line_arguments()
     data_path = parsed_args.path
     training_emails, training_labels, = load_dataset(data_path + "/training")
     test_emails, test_labels = load_dataset(data_path + "/test")
@@ -26,7 +26,9 @@ def main():
     test_svm_classifier(C=1, use_idf=True, kernel='linear')
     test_svm_classifier(C=2, use_idf=True, kernel='linear')
     test_svm_classifier(C=10, use_idf=True, kernel='linear')
+    test_svm_classifier(C=20, use_idf=True, kernel='linear')
 
+    test_perceptron_classifier()
 
 def parse_command_line_arguments():
     parser = argparse.ArgumentParser(
@@ -75,20 +77,26 @@ def test_svm_classifier(C, use_idf, kernel):
     svm_classifier.fit(training_emails, training_labels)
 
     # Test it
-    num_correctly_classified = 0
-    num_wrongly_classified = 0
     results = svm_classifier.predict(test_emails)
-    for i in range(len(results)):
-        if (results[i] == test_labels[i]):
-            num_correctly_classified += 1
-        else:
-            num_wrongly_classified += 1
-
     accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
     print("Accuracy of SVM classifier was " + accuracy)
+
+def test_perceptron_classifier():
+    classifier = Pipeline([
+        ('count_vectorizer', CountVectorizer(stop_words="english")),
+        ('tfidf_transformer', TfidfTransformer(use_idf=True)),
+        ('perceptron', Perceptron(tol=0.001,))
+    ])
+
+    # Train the perceptron
+    classifier.fit(training_emails, training_labels)
+
+    # Test it
+    results = classifier.predict(test_emails)
+    accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
+    print("Accuracy of perceptron was " + accuracy)
+
 
 
 if __name__ == "__main__":
     main()
-
-
