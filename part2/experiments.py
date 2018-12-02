@@ -26,7 +26,17 @@ def main():
     test_svm_classifier(C=1, use_idf=True, kernel='linear')
     test_svm_classifier(C=2, use_idf=True, kernel='linear')
     test_svm_classifier(C=10, use_idf=True, kernel='linear')
-    test_svm_classifier(C=20, use_idf=True, kernel='linear')
+    test_svm_classifier(C=50, use_idf=True, kernel='linear')
+
+    test_svm_classifier(C=1, use_idf=True, kernel='poly')
+    test_svm_classifier(C=2, use_idf=True, kernel='poly')
+    test_svm_classifier(C=10, use_idf=True, kernel='poly')
+    test_svm_classifier(C=50, use_idf=True, kernel='poly')
+
+    test_svm_classifier(C=1, use_idf=True, kernel='rbf')
+    test_svm_classifier(C=2, use_idf=True, kernel='rbf')
+    test_svm_classifier(C=10, use_idf=True, kernel='rbf')
+    test_svm_classifier(C=50, use_idf=True, kernel='rbf')
 
     test_perceptron_classifier()
 
