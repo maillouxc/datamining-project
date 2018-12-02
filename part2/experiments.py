@@ -32,7 +32,7 @@ def main():
     test_svm_classifier(C=1, kernel='poly')
     test_svm_classifier(C=2, kernel='poly')
     test_svm_classifier(C=10, kernel='poly')
-    test_svm_classifier(C=50,, kernel='poly')
+    test_svm_classifier(C=50, kernel='poly')
 
     test_svm_classifier(C=1, kernel='rbf')
     test_svm_classifier(C=2, kernel='rbf')
