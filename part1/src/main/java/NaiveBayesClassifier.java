@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * TODO finish this documentation.
+ * A SpamEmailClassifier based on Naive Bayesian classification.
  *
- * Of course, with Naive Bayes done in this manner, we are assuming independence of words. That is, we are not looking
+ * With Naive Bayes done in this manner, we are assuming independence of words. That is, we are not looking
  * at full sentences or phrases, but rather individual words chosen.
  */
 public class NaiveBayesClassifier implements SpamEmailClassifier {
