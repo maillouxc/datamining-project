@@ -176,7 +176,7 @@ def test_svm_classifier(C, kernel, gamma="scale"):
     accuracy = str("{0:.3%}").format(numpy.mean(results == test_labels))
     if kernel == 'rbf':
         print("C = " + str(C) + "; gamma = " + str(gamma) + "; accuracy = " + accuracy)
-    elif kernel = 'linear':
+    elif kernel == 'linear':
         print("C = " + str(C) + "; accuracy = " + accuracy)
     else:
         print("C = " + str(C) + "; accuracy = " + accuracy)
