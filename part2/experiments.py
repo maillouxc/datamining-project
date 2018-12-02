@@ -24,20 +24,20 @@ def main():
     training_emails, training_labels, = load_dataset(data_path + "/training")
     test_emails, test_labels = load_dataset(data_path + "/test")
 
-    test_svm_classifier(C=1, use_idf=True, kernel='linear')
-    test_svm_classifier(C=2, use_idf=True, kernel='linear')
-    test_svm_classifier(C=10, use_idf=True, kernel='linear')
-    test_svm_classifier(C=50, use_idf=True, kernel='linear')
+    test_svm_classifier(C=1, kernel='linear')
+    test_svm_classifier(C=2, kernel='linear')
+    test_svm_classifier(C=10, kernel='linear')
+    test_svm_classifier(C=50, kernel='linear')
 
-    test_svm_classifier(C=1, use_idf=True, kernel='poly')
-    test_svm_classifier(C=2, use_idf=True, kernel='poly')
-    test_svm_classifier(C=10, use_idf=True, kernel='poly')
-    test_svm_classifier(C=50, use_idf=True, kernel='poly')
+    test_svm_classifier(C=1, kernel='poly')
+    test_svm_classifier(C=2, kernel='poly')
+    test_svm_classifier(C=10, kernel='poly')
+    test_svm_classifier(C=50,, kernel='poly')
 
-    test_svm_classifier(C=1, use_idf=True, kernel='rbf')
-    test_svm_classifier(C=2, use_idf=True, kernel='rbf')
-    test_svm_classifier(C=10, use_idf=True, kernel='rbf')
-    test_svm_classifier(C=50, use_idf=True, kernel='rbf')
+    test_svm_classifier(C=1, kernel='rbf')
+    test_svm_classifier(C=2, kernel='rbf')
+    test_svm_classifier(C=10, kernel='rbf')
+    test_svm_classifier(C=50, kernel='rbf')
 
     test_perceptron_classifier()
 
@@ -72,10 +72,10 @@ def load_dataset(data_path):
     return email_data, email_labels
 
 
-def test_svm_classifier(C, use_idf, kernel):
+def test_svm_classifier(C, kernel):
     svm_classifier = Pipeline([
         ('count_vectorizer', CountVectorizer(stop_words="english")),
-        ('tfidf_transformer', TfidfTransformer(use_idf=use_idf)),
+        ('tfidf_transformer', TfidfTransformer(use_idf=True)),
         ('svm_classifier', svm.SVC(gamma="scale",
                                    C=C,
                                    class_weight=None,
