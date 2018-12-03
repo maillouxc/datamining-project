@@ -229,7 +229,6 @@ public class EmailTokenizer {
                     if (token.matches(dollarAmountRegex)) {
                         token = "dollaramount";
                     }
-
                     tokens.add(token);
                     tokensAccepted++;
                 }

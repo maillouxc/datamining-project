@@ -105,6 +105,11 @@ public class Classify {
         double accuracy = ((double) numCorrectlyClassified / testEmails.size()) * 100;
         String accuracyString = String.format("%.3f", accuracy);
 
+        double percentOfTokensRemoved = ((double) EmailTokenizer.tokensStripped / EmailTokenizer.tokensParsed) * 100;
+        String percentOfTokensRemovedString = String.format("%.3f", percentOfTokensRemoved);
+        System.out.println("Stripped " + percentOfTokensRemovedString + "% of tokens.");
+        System.out.println(EmailTokenizer.tokensAccepted  + "/" + EmailTokenizer.tokensParsed + " tokens remaining.");
+
         System.out.println("\nAccuracy of " + classifier.getAlgorithmName() + " was " + accuracyString + "%.");
         System.out.println(numCorrectlyClassified + "/" + testEmails.size() + " emails classified correctly.");
     }
